@@ -6,9 +6,10 @@ import wsevents.client.ConnProperties
 import wsevents.client.Heartbeat
 import wsevents.client.IdData
 import wsevents.client.Identify
+import wsevents.server.Ready
 import java.net.URI
 
-class DiscordClient(val token: String) {
+class DiscordClient(val token: String, val eventHandler: EventHandler) {
     val apiVersion = "9"
     val baseEndpoint = "https://discord.com/api/v$apiVersion"
     var gatewayURL = ""
@@ -16,6 +17,8 @@ class DiscordClient(val token: String) {
     private var session: Session? = null
     private var client: ClientManager? = null
     private var handler: WebSocketHandler? = null
+
+    var readyState: Ready? = null
 
     init {
         gatewayURL = "${GetGateway().run(baseEndpoint).url}/?v=$apiVersion&encoding=json"

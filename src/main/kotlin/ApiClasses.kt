@@ -86,3 +86,7 @@ class Sticker(
 value class Snowflake(val s: String)
 @JvmInline
 value class Discrim(val s: String)
+
+class Relationship(
+    // todo: implement this bs
+)

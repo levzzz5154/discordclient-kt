@@ -2,6 +2,7 @@ import com.google.gson.GsonBuilder
 import jakarta.websocket.*
 import wsevents.client.Heartbeat
 import wsevents.server.Hello
+import wsevents.server.Ready
 import wsevents.server.ServerEvent
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
@@ -15,16 +16,17 @@ class WebSocketHandler(val dcClient: DiscordClient) {
     var gson = GsonBuilder().serializeNulls().create()
     var scheduledExecutor = Executors.newSingleThreadScheduledExecutor()
     var heartbeatFuture: ScheduledFuture<*>? = null
+
     @OnOpen
     fun onOpen(clientSession: Session) {
         println("--- Connection Successful " + clientSession.id)
-
     }
 
     @OnMessage
     fun onMessage(clientMessage: String, clientSession: Session?) {
         println("--- Message Received $clientMessage")
         val leEvent = gson.fromJson(clientMessage, ServerEvent::class.java)
+
         when (leEvent.op) {
             10 -> {
                 val wrapper = gson.fromJson(clientMessage, Hello::class.java)
@@ -39,8 +41,22 @@ class WebSocketHandler(val dcClient: DiscordClient) {
                     println("sent heartbeat to dc, d = $lastPayload")
                 }, Random.nextLong(1, 5000), wrapper.d.heartbeat_interval.toLong(), TimeUnit.MILLISECONDS)
             }
+            0 -> {
+                handleNamedEvent(leEvent)
+            }
         }
         lastPayload = leEvent.s
+    }
+
+    fun handleNamedEvent(event: ServerEvent<*>) {
+        if (event.t == null) return
+        when (event.t) {
+            "READY" -> {
+                val wrapper = event as Ready
+                dcClient.readyState = wrapper
+                dcClient.eventHandler.onReady(wrapper)
+            }
+        }
     }
 
     @OnClose
