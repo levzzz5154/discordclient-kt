@@ -1,6 +1,7 @@
 import com.google.gson.GsonBuilder
 import jakarta.websocket.*
 import wsevents.client.Heartbeat
+import wsevents.server.GuildCreate
 import wsevents.server.Hello
 import wsevents.server.Ready
 import wsevents.server.ServerEvent
@@ -42,19 +43,24 @@ class WebSocketHandler(val dcClient: DiscordClient) {
                 }, Random.nextLong(1, 5000), wrapper.d.heartbeat_interval.toLong(), TimeUnit.MILLISECONDS)
             }
             0 -> {
-                handleNamedEvent(leEvent)
+                handleNamedEvent(leEvent, clientMessage)
             }
         }
         lastPayload = leEvent.s
     }
 
-    fun handleNamedEvent(event: ServerEvent<*>) {
+    fun handleNamedEvent(event: ServerEvent<*>, jsonEvent: String) {
         if (event.t == null) return
         when (event.t) {
             "READY" -> {
-                val wrapper = event as Ready
+                val wrapper = gson.fromJson(jsonEvent, Ready::class.java)
                 dcClient.readyState = wrapper
                 dcClient.eventHandler.onReady(wrapper)
+            }
+            "GUILD_CREATE" -> {
+                val wrapper = gson.fromJson(jsonEvent, GuildCreate::class.java)
+
+                dcClient.eventHandler.onGuildCreate(wrapper)
             }
         }
     }
