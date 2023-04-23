@@ -4,32 +4,26 @@ import requests.GetGateway
 import wsevents.client.ConnProperties
 import wsevents.client.IdData
 import wsevents.client.Identify
-import wsevents.server.GuildCreate
-import wsevents.server.MessageCreate
-import wsevents.server.Ready
+import wsevents.server.*
 
 class DiscordClientTest {
-    val apiVersion = "9"
-    val baseEndpoint = "https://discord.com/api/v$apiVersion"
-    @Test
-    fun getGateway() {
-        val gatewayURL = GetGateway().run(baseEndpoint).url
-        println(gatewayURL)
-    }
-
     @Test
     fun mainTest() {
-        val token = "MTA5NzkxMzE4OTIxNzM1MzgwOA.Gj3IH3.shNt9hAqU42FoyL3fhsyAOj1Z3qrQ_I_wnGvqs"
+        //val token = "MTA5NzkxMzE4OTIxNzM1MzgwOA.Gj3IH3.shNt9hAqU42FoyL3fhsyAOj1Z3qrQ_I_wnGvqs" //bot
+        val token = "MTA5ODU5MTA2ODIzNDE4NjgzMw.GQzxmS.OLA3R7HjaKDlv8bOx2AL2JbrG4hAR3Hj-89K00" // user
         println("testink")
         val client = DiscordClient(token, object : EventHandler() {
-            override fun onReady(event: Ready) {
+            override fun onReady(event: ReadyData, client: DiscordClient) {
                 println("ready or something")
             }
-            override fun onGuildCreate(event: GuildCreate) {
+            override fun onGuildCreate(event: GuildCreateData, client: DiscordClient) {
                 println("some guild was created Lol")
             }
-            override fun onMessageCreate(event: MessageCreate) {
-
+            override fun onMessageCreate(event: MessageCreateData, client: DiscordClient) {
+                if (event.author.id == "1098591068234186833") {
+                    return
+                }
+                client.API.createMessage(event.channel_id, "your msg: ${event.content}")
             }
         })
     }

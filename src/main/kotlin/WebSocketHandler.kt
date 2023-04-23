@@ -1,10 +1,7 @@
 import com.google.gson.GsonBuilder
 import jakarta.websocket.*
 import wsevents.client.Heartbeat
-import wsevents.server.GuildCreate
-import wsevents.server.Hello
-import wsevents.server.Ready
-import wsevents.server.ServerEvent
+import wsevents.server.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
@@ -20,15 +17,15 @@ class WebSocketHandler(val dcClient: DiscordClient) {
 
     @OnOpen
     fun onOpen(clientSession: Session) {
-        println("--- Connection Successful " + clientSession.id)
+        println("--- Connection Successful: " + clientSession.id)
     }
 
     @OnMessage
     fun onMessage(clientMessage: String, clientSession: Session?) {
-        println("--- Message Received $clientMessage")
+        println("--- Received: $clientMessage")
         val leEvent = gson.fromJson(clientMessage, ServerEvent::class.java)
 
-        when (leEvent.op) {
+        when (leEvent.opcode) {
             10 -> {
                 val wrapper = gson.fromJson(clientMessage, Hello::class.java)
 
@@ -40,27 +37,30 @@ class WebSocketHandler(val dcClient: DiscordClient) {
                     }
                     clientSession.basicRemote.sendText(gson.toJson(Heartbeat(lastPayload)))
                     println("sent heartbeat to dc, d = $lastPayload")
-                }, Random.nextLong(1, 5000), wrapper.d.heartbeat_interval.toLong(), TimeUnit.MILLISECONDS)
+                }, Random.nextLong(1, 5000), wrapper.data.heartbeat_interval.toLong(), TimeUnit.MILLISECONDS)
             }
             0 -> {
                 handleNamedEvent(leEvent, clientMessage)
             }
         }
-        lastPayload = leEvent.s
+        lastPayload = leEvent.sequenceNumber
     }
 
     fun handleNamedEvent(event: ServerEvent<*>, jsonEvent: String) {
-        if (event.t == null) return
-        when (event.t) {
+        if (event.type == null) return
+        when (event.type) {
             "READY" -> {
                 val wrapper = gson.fromJson(jsonEvent, Ready::class.java)
                 dcClient.readyState = wrapper
-                dcClient.eventHandler.onReady(wrapper)
+                dcClient.eventHandler.onReady(wrapper.data, dcClient)
             }
             "GUILD_CREATE" -> {
                 val wrapper = gson.fromJson(jsonEvent, GuildCreate::class.java)
-
-                dcClient.eventHandler.onGuildCreate(wrapper)
+                dcClient.eventHandler.onGuildCreate(wrapper.data, dcClient)
+            }
+            "MESSAGE_CREATE" -> {
+                val wrapper = gson.fromJson(jsonEvent, MessageCreate::class.java)
+                dcClient.eventHandler.onMessageCreate(wrapper.data, dcClient)
             }
         }
     }
@@ -73,6 +73,8 @@ class WebSocketHandler(val dcClient: DiscordClient) {
 
     @OnError
     fun error(session: Session, t: Throwable?) {
-        println("Error on session " + session.id)
+        if (t != null) {
+            println("Error on session: " + t.message)
+        }
     }
 }

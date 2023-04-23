@@ -1,9 +1,9 @@
 import java.awt.Color
 
 class DiscordUser(
-    var id: Snowflake,
+    var id: String,
     val username: String,
-    val discriminator: Discrim,
+    val discriminator: String,
     val avatar: String?,
     val bot: Boolean?,
     val system: Boolean?,
@@ -20,7 +20,7 @@ class DiscordUser(
 class PartialMember(
     val nick: String?,
     val avatar: String?,
-    val roles: Array<Snowflake>,
+    val roles: Array<String>,
     val joined_at: String,
     val premium_since: String?,
     val deaf: Boolean,
@@ -31,11 +31,11 @@ class PartialMember(
 )
 
 class PartialGuild(
-    val id: Snowflake,
+    val id: String,
     val unavailable: Boolean,
 )
 class GuildPreview(
-    val id: Snowflake,
+    val id: String,
     val name: String,
     val icon: String?,
     val splash: String?,
@@ -48,11 +48,11 @@ class GuildPreview(
     val stickers: Array<Sticker>,
 )
 class PartialApplication(
-    val id: Snowflake,
+    val id: String,
     val flags: Int?,
 )
 class Emoji(
-    val id: Snowflake?,
+    val id: String?,
     val name: String?,
     val roles: Array<Role>?,
     val user: DiscordUser?,
@@ -62,9 +62,9 @@ class Emoji(
     val available: Boolean?
 )
 class Role(
-    val id: Snowflake,
+    val id: String,
     val name: String,
-    val color: IntColor,
+    val color: Int,
     val hoist: Boolean,
     val icon: String?,
     val unicode_emoji: String?,
@@ -77,36 +77,27 @@ class Role(
 class RoleTags(
     // TODO: implement this bs
 )
-@JvmInline
-value class IntColor(val hexValue: Int) {
-    fun toColor(): Color = Color(hexValue)
-}
 class Sticker(
-    val id: Snowflake,
-    val pack_id: Snowflake?,
+    val id: String,
+    val pack_id: String?,
     val name: String,
     val description: String?,
     val tags: String,
     val type: Int,
     val format_type: Int,
     val available: Boolean?,
-    val guild_id: Snowflake?,
+    val guild_id: String?,
     val user: DiscordUser?,
     val sort_value: Int?
 )
-
-@JvmInline
-value class Snowflake(val s: String)
-@JvmInline
-value class Discrim(val s: String)
 
 class Relationship(
     // todo: implement this bs
 )
 
 open class Message(
-    val id: Snowflake,
-    val channel_id: Snowflake,
+    val id: String,
+    val channel_id: String,
     val author: DiscordUser,
     val content: String,
     val timestamp: String,
@@ -114,18 +105,18 @@ open class Message(
     val tts: Boolean,
     val mention_everyone: Boolean,
     val mentions: Array<DiscordUser>,
-    val mention_roles: Array<Snowflake>,
+    val mention_roles: Array<String>,
     val mention_channels: Array<ChannelMention>,
     val attachments: Array<Attachment>?,
     val embeds: Array<Embed>?,
     val reactions: Array<Reaction>?,
     val nonce: String?,
     val pinned: Boolean?,
-    val webhook_id: Snowflake?,
+    val webhook_id: String?,
     val type: Int,
     val activity: MessageActivity?,
     val application: PartialApplication?,
-    val application_id: Snowflake?,
+    val application_id: String?,
     val message_reference: MessageReference?,
     val flags: Int,
     val referenced_message: Message?,
@@ -139,16 +130,16 @@ open class Message(
 )
 
 class MessageInteraction(
-    val id: Snowflake,
+    val id: String,
     val type: Int,
     val name: String,
     val user: DiscordUser,
     //val member: PartialMember,
 )
 class MessageReference(
-    val message_id: Snowflake?,
-    val channel_id: Snowflake?,
-    val guild_id: Snowflake?,
+    val message_id: String?,
+    val channel_id: String?,
+    val guild_id: String?,
     val fail_if_not_exists: Boolean?
 )
 
@@ -164,7 +155,7 @@ class Reaction(
 )
 
 class Attachment(
-    val id: Snowflake,
+    val id: String,
     val filename: String,
     val description: String?,
     val content_type: String?,
@@ -176,8 +167,8 @@ class Attachment(
     val ephemeral: Boolean?
 )
 class ChannelMention(
-    val id: Snowflake,
-    val guild_id: Snowflake,
+    val id: String,
+    val guild_id: String,
     val type: Int,
     val name: String
 )

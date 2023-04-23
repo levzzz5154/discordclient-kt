@@ -1,10 +1,7 @@
-import wsevents.server.GuildCreate
-import wsevents.server.MessageCreate
-import wsevents.server.Ready
+import wsevents.server.*
 
 abstract class EventHandler {
-    abstract fun onReady(event: Ready)
-    abstract fun onGuildCreate(event: GuildCreate)
-
-    abstract fun onMessageCreate(event: MessageCreate)
+    abstract fun onReady(event: ReadyData, client: DiscordClient)
+    abstract fun onGuildCreate(event: GuildCreateData, client: DiscordClient)
+    abstract fun onMessageCreate(event: MessageCreateData, client: DiscordClient)
 }

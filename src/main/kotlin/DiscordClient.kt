@@ -1,9 +1,7 @@
 import com.google.gson.GsonBuilder
 import jakarta.websocket.Session
 import org.glassfish.tyrus.client.ClientManager
-import requests.GetGateway
 import wsevents.client.ConnProperties
-import wsevents.client.Heartbeat
 import wsevents.client.IdData
 import wsevents.client.Identify
 import wsevents.server.Ready
@@ -16,16 +14,16 @@ class DiscordClient(val token: String, val eventHandler: EventHandler) {
 
     private var session: Session? = null
     private var client: ClientManager? = null
-    private var handler: WebSocketHandler? = null
+    private var handler: WebSocketHandler = WebSocketHandler(this)
+    var API: HTTPDiscordApi = HTTPDiscordApi(this)
 
     var readyState: Ready? = null
 
     init {
-        gatewayURL = "${GetGateway().run(baseEndpoint).url}/?v=$apiVersion&encoding=json"
+        gatewayURL = "${API.getGateway().url}/?v=$apiVersion&encoding=json"
 
         println(gatewayURL)
         val client = ClientManager.createClient()
-        handler = WebSocketHandler(this)
         val session = client.asyncConnectToServer(handler, URI(gatewayURL)).get()
         val gson = GsonBuilder().create()
 

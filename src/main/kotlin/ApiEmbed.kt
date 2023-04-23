@@ -4,7 +4,7 @@ class Embed(
     val description: String?,
     val url: String?,
     val timestamp: String?,
-    val color: IntColor?,
+    val color: Int?,
     val footer: EmbedFooter?,
     val image: EmbedImage?,
     val thumbnail: EmbedThumbnail?,

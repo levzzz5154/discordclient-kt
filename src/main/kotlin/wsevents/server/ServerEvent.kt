@@ -1,5 +1,12 @@
 package wsevents.server
 
-open class ServerEvent<T>(val op: Int, val d: T, val s: Int?, val t: String?) {
+import com.google.gson.annotations.SerializedName
+
+open class ServerEvent<T>(
+    @SerializedName("op") val opcode: Int,
+    @SerializedName("d") val data: T,
+    @SerializedName("s") val sequenceNumber: Int?,
+    @SerializedName("t") val type: String?
+) {
 
 }
