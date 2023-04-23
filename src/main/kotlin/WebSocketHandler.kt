@@ -10,7 +10,7 @@ import kotlin.random.Random
 
 @ClientEndpoint
 class WebSocketHandler(val dcClient: DiscordClient) {
-    var lastPayload: Int? = null
+    var lastSequence: Int? = null
     var gson = GsonBuilder().serializeNulls().create()
     var scheduledExecutor = Executors.newSingleThreadScheduledExecutor()
     var heartbeatFuture: ScheduledFuture<*>? = null
@@ -35,15 +35,15 @@ class WebSocketHandler(val dcClient: DiscordClient) {
                         heartbeatFuture!!.cancel(true)
                         return@scheduleAtFixedRate
                     }
-                    clientSession.basicRemote.sendText(gson.toJson(Heartbeat(lastPayload)))
-                    println("sent heartbeat to dc, d = $lastPayload")
+                    clientSession.basicRemote.sendText(gson.toJson(Heartbeat(lastSequence)))
+                    println("sent heartbeat to dc, d = $lastSequence")
                 }, Random.nextLong(1, 5000), wrapper.data.heartbeat_interval.toLong(), TimeUnit.MILLISECONDS)
             }
             0 -> {
                 handleNamedEvent(leEvent, clientMessage)
             }
         }
-        lastPayload = leEvent.sequenceNumber
+        lastSequence = leEvent.sequenceNumber
     }
 
     fun handleNamedEvent(event: ServerEvent<*>, jsonEvent: String) {

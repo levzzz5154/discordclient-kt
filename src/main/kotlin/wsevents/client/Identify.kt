@@ -1,5 +1,8 @@
 package wsevents.client
 
+import Emoji
+import apiclasses.Activity
+
 class Identify(d: IdData) : ClientEvent<IdData>(2, d) {
 
 }
@@ -15,4 +18,3 @@ class IdData(
 )
 class ConnProperties(val os: String, val browser: String, val device: String)
 class UpdatePresence(val since: Int?, val activities: Array<Activity>, val status: String, val afk: Boolean)
-class Activity
