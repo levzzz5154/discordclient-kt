@@ -1,9 +1,9 @@
-package wsevents.server
+package discordclient.wsevents.server
 
-import DiscordUser
-import PartialApplication
-import PartialGuild
-import Relationship
+import discordclient.DiscordUser
+import discordclient.PartialApplication
+import discordclient.PartialGuild
+import discordclient.Relationship
 
 class Ready(d: ReadyData, s: Int?) : ServerEvent<ReadyData>(0, d, s, "READY") {
 

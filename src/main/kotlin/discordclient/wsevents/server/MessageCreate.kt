@@ -1,22 +1,22 @@
-package wsevents.server
+package discordclient.wsevents.server
 
-import Attachment
-import ChannelMention
-import DiscordUser
-import Embed
-import Message
-import MessageActivity
-import MessageInteraction
-import MessageReference
-import PartialApplication
-import PartialMember
-import Reaction
-import Sticker
+import discordclient.Attachment
+import discordclient.ChannelMention
+import discordclient.DiscordUser
+import discordclient.Embed
+import discordclient.Message
+import discordclient.MessageActivity
+import discordclient.MessageInteraction
+import discordclient.MessageReference
+import discordclient.PartialApplication
+import discordclient.PartialMember
+import discordclient.Reaction
+import discordclient.Sticker
 
-class MessageUpdate(d: MessageUpdateData) : ServerEvent<MessageUpdateData>(0, d, null, "MESSAGE_UPDATE") {
+class MessageCreate(d: MessageCreateData) : ServerEvent<MessageCreateData>(0, d, null, "MESSAGE_CREATE") {
 }
 
-class MessageUpdateData(
+class MessageCreateData(
     val id: String,
     val channel_id: String,
     val author: DiscordUser,

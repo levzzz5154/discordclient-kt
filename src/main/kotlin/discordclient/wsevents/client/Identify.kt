@@ -1,7 +1,6 @@
-package wsevents.client
+package discordclient.wsevents.client
 
-import Emoji
-import apiclasses.Activity
+import discordclient.apiclasses.Activity
 
 class Identify(d: IdData) : ClientEvent<IdData>(2, d) {
 

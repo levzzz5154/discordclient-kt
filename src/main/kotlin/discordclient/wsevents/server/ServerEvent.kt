@@ -1,4 +1,4 @@
-package wsevents.server
+package discordclient.wsevents.server
 
 import com.google.gson.annotations.SerializedName
 

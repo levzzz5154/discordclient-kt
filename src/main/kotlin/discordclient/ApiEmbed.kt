@@ -1,3 +1,5 @@
+package discordclient
+
 class Embed(
     val title: String?,
     val type: String?,

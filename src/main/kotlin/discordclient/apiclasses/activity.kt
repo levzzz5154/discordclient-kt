@@ -1,6 +1,6 @@
-package apiclasses
+package discordclient.apiclasses
 
-import Emoji
+import discordclient.Emoji
 
 class Activity(
     val name: String,

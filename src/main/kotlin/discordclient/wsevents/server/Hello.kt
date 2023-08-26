@@ -1,4 +1,4 @@
-package wsevents.server
+package discordclient.wsevents.server
 
 class Hello(d: HelloData) : ServerEvent<HelloData>(10, d, null, null) {
 

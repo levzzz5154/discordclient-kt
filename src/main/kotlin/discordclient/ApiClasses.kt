@@ -1,4 +1,6 @@
-import apiclasses.Activity
+package discordclient
+
+import discordclient.apiclasses.Activity
 import com.google.gson.TypeAdapter
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.stream.JsonReader

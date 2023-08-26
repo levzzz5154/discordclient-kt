@@ -1,11 +1,11 @@
-package wsevents.server
+package discordclient.wsevents.server
 
-import Channel
-import GuildMember
-import GuildScheduledEvent
-import PresenceUpdate
-import StageInstance
-import VoiceState
+import discordclient.Channel
+import discordclient.GuildMember
+import discordclient.GuildScheduledEvent
+import discordclient.PresenceUpdate
+import discordclient.StageInstance
+import discordclient.VoiceState
 
 class GuildCreate(d: GuildCreateData) : ServerEvent<GuildCreateData>(0, d, null, "GUILD_CREATE") {
 }

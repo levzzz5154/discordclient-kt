@@ -1,7 +1,9 @@
+package discordclient
+
 import com.google.gson.GsonBuilder
 import jakarta.websocket.*
-import wsevents.client.Heartbeat
-import wsevents.server.*
+import discordclient.wsevents.client.Heartbeat
+import discordclient.wsevents.server.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit

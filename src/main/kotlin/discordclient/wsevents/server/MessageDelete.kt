@@ -1,4 +1,4 @@
-package wsevents.server
+package discordclient.wsevents.server
 
 class MessageDelete(d: MessageDeleteData) : ServerEvent<MessageDeleteData>(10, d, null, "MESSAGE_DELETE") {
 }

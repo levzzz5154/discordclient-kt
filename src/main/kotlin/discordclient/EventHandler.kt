@@ -1,7 +1,9 @@
-import wsevents.server.GuildCreateData
-import wsevents.server.MessageCreateData
-import wsevents.server.MessageUpdateData
-import wsevents.server.ReadyData
+package discordclient
+
+import discordclient.wsevents.server.GuildCreateData
+import discordclient.wsevents.server.MessageCreateData
+import discordclient.wsevents.server.MessageUpdateData
+import discordclient.wsevents.server.ReadyData
 
 class EventHandler(
     val onReady: (ReadyData, DiscordClient) -> Unit = { _, _ -> },
