@@ -22,7 +22,7 @@ class DiscordClient(val token: String, val eventHandler: EventHandler) {
     var readyState: Ready? = null
 
     init {
-        gatewayURL = "${API.getGateway().url}/?v=$apiVersion&encoding=json"
+        gatewayURL = "${API.getGateway()}/?v=$apiVersion&encoding=json"
 
         println(gatewayURL)
         val client = ClientManager.createClient()
@@ -36,8 +36,7 @@ class DiscordClient(val token: String, val eventHandler: EventHandler) {
             ConnProperties("Windows", "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36", "Windows NT 10.0; Win64; x64"),
             null, null, null, null,
             131071
-        )
-        )
+        ))
         session.basicRemote.sendText(gson.toJson(identifyEvent))
 
         while (session.isOpen) {

@@ -12,12 +12,12 @@ class HTTPDiscordApi(val dcClient: DiscordClient) {
     private val httpClient: HttpClient = HttpClient.newHttpClient()
     private val gson = Gson()
 
-    fun getGateway(): GetGatewayResponse {
+    fun getGateway(): String {
         val request = HttpRequest.newBuilder(URI("${dcClient.baseEndpoint}/gateway"))
             .GET()
             .build()
         val jsonResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
-        return gson.fromJson(jsonResponse.body(), GetGatewayResponse::class.java)
+        return gson.fromJson(jsonResponse.body(), GetGatewayResponse::class.java).url
     }
 
     fun createMessage(channelId: String, content: String): Message {
@@ -46,5 +46,15 @@ class HTTPDiscordApi(val dcClient: DiscordClient) {
             .build()
         val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
         return gson.fromJson(response.body(), Message::class.java)
+    }
+
+    fun deleteMessage(channelId: String, messageId: String): Boolean {
+        val request = HttpRequest.newBuilder(URI("${dcClient.baseEndpoint}/channels/$channelId/messages/$messageId"))
+            .method("DELETE", HttpRequest.BodyPublishers.noBody())
+            .header("Authorization", dcClient.token)
+            .header("User-Agent", "DiscordBot (angles.tech, 9)")
+            .build()
+        val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
+        return response.statusCode() == 204
     }
 }

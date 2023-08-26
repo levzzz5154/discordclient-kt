@@ -27,7 +27,7 @@ class DiscordClientTest {
                 }
                 val message = client.API.createMessage(event.channel_id, "your msg: ${event.content}")
                 leMap[event.id] = message
-                if (leMap.size > 5) leMap.clear()
+                if (leMap.size > 10) leMap.clear()
             },
             onMessageUpdate = { event, client ->
                 if (event.author.id == "1098591068234186833") {
@@ -39,6 +39,13 @@ class DiscordClientTest {
                 }
                 val message = client.API.createMessage(event.channel_id, "you edited your message to: ${event.content}")
             },
+            onMessageDelete = { event, client ->
+                var replyString = "msg deleted, id: ${event.id}"
+                if (leMap[event.id] != null) {
+                    replyString += ", content: ${leMap[event.id]!!.content}"
+                }
+                client.API.createMessage(event.channel_id, replyString)
+            }
         ))
 
     }
