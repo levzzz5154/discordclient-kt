@@ -6,7 +6,6 @@ import GuildScheduledEvent
 import PresenceUpdate
 import StageInstance
 import VoiceState
-import wsevents.client.UpdatePresence
 
 class GuildCreate(d: GuildCreateData) : ServerEvent<GuildCreateData>(0, d, null, "GUILD_CREATE") {
 }

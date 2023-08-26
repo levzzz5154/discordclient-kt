@@ -62,6 +62,10 @@ class WebSocketHandler(val dcClient: DiscordClient) {
                 val wrapper = gson.fromJson(jsonEvent, MessageCreate::class.java)
                 dcClient.eventHandler.onMessageCreate(wrapper.data, dcClient)
             }
+            "MESSAGE_UPDATE" -> {
+                val wrapper = gson.fromJson(jsonEvent, MessageUpdate::class.java)
+                dcClient.eventHandler.onMessageUpdate(wrapper.data, dcClient)
+            }
         }
     }
 

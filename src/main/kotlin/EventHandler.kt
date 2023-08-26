@@ -1,7 +1,11 @@
-import wsevents.server.*
+import wsevents.server.GuildCreateData
+import wsevents.server.MessageCreateData
+import wsevents.server.MessageUpdateData
+import wsevents.server.ReadyData
 
-abstract class EventHandler {
-    abstract fun onReady(event: ReadyData, client: DiscordClient)
-    abstract fun onGuildCreate(event: GuildCreateData, client: DiscordClient)
-    abstract fun onMessageCreate(event: MessageCreateData, client: DiscordClient)
-}
+class EventHandler(
+    val onReady: (ReadyData, DiscordClient) -> Unit = { _, _ -> },
+    val onGuildCreate: (GuildCreateData, DiscordClient) -> Unit = { _, _ -> },
+    val onMessageCreate: (MessageCreateData, DiscordClient) -> Unit = { _, _ -> },
+    val onMessageUpdate: (MessageUpdateData, DiscordClient) -> Unit = { _, _ -> },
+)

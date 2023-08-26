@@ -151,10 +151,20 @@ class Guild (
     val max_stage_video_channel_users: Int?,
     val approximate_member_count: Int?,
     val approximate_presence_count: Int?,
-//    val welcome_screen: WelcomeScreen?, TODO
+    val welcome_screen: WelcomeScreen?,
     val nsfw_level: Int,
     val stickers: Array<Sticker>,
     val premium_progress_bar_enabled: Boolean
+)
+class WelcomeScreen(
+    val description: String?,
+    val welcome_channels: Array<WelcomeScreenChannel>
+)
+class WelcomeScreenChannel(
+    val channel_id: String,
+    val description: String,
+    val emoji_id: String?,
+    val emoji_name: String?
 )
 
 class PartialApplication(
@@ -185,7 +195,12 @@ class Role(
     val tags: RoleTags?
 )
 class RoleTags(
-    // TODO: implement this bs
+    val bot_id: String?,
+    val integration_id: String?,
+    val premium_subscriber: Boolean?,
+    val subscription_listing_id: String?,
+    val available_for_purchase: Boolean?,
+    val guild_connections: Boolean?,
 )
 class Sticker(
     val id: String,
