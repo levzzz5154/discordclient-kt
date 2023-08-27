@@ -57,4 +57,18 @@ class HTTPDiscordApi(val dcClient: DiscordClient) {
         val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
         return response.statusCode() == 204
     }
+
+    fun bulkDeleteMessages(channelId: String, messageIds: List<String>): Boolean {
+        val requestBody = JsonObject()
+        requestBody.add("messages", gson.toJsonTree(messageIds))
+        val request = HttpRequest.newBuilder(URI("${dcClient.baseEndpoint}/channels/$channelId/messages/bulk-delete"))
+            .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(requestBody)))
+            .header("Content-Type", "application/json")
+            .header("Authorization", dcClient.token)
+            .header("User-Agent", "DiscordBot (angles.tech, 9)")
+            .build()
+
+        val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
+        return response.statusCode() == 204
+    }
 }
