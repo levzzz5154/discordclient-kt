@@ -10,9 +10,8 @@ import discordclient.wsevents.client.Identify
 class DiscordClientTest {
     @Test
     fun mainTest() {
-        //val token = "MTA5NzkxMzE4OTIxNzM1MzgwOA.Gj3IH3.shNt9hAqU42FoyL3fhsyAOj1Z3qrQ_I_wnGvqs" //bot
         val leMap = mutableMapOf<String, Message>()
-        val token = "MTA5ODU5MTA2ODIzNDE4NjgzMw.GQzxmS.OLA3R7HjaKDlv8bOx2AL2JbrG4hAR3Hj-89K00" // user
+        val token = "" // put yuor token here
         println("testink")
         val client = DiscordClient(token, EventHandler(
             onReady = { _, _ ->
@@ -24,6 +23,9 @@ class DiscordClientTest {
             onMessageCreate = { event, client ->
                 if (event.author.id == "1098591068234186833") {
                     return@EventHandler
+                }
+                if (event.content.contains("react to this")) {
+                    println("status code: ${client.API.createReaction(event.channel_id, event.id, "🍕")}")
                 }
                 val message = client.API.createMessage(event.channel_id, "your msg: ${event.content}")
                 leMap[event.id] = message
@@ -54,7 +56,7 @@ class DiscordClientTest {
     fun jsonTest() {
         val ident = Identify(
             IdData("my bot toekn",
-            ConnProperties("insaneos", "chromium or something", "a pregnancy test"),
+            ConnProperties("insaneos", "chromium or something", "a microwave"),
             null, null, null, null,
             50085)
         )

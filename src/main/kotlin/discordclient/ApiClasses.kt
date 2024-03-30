@@ -182,7 +182,9 @@ class Emoji(
     val managed: Boolean?,
     val animated: Boolean?,
     val available: Boolean?
-)
+) {
+    constructor(leName: String) : this(null, leName, null, null, null, null, null, null)
+}
 class Role(
     val id: String,
     val name: String,
