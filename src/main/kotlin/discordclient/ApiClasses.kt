@@ -268,8 +268,7 @@ class MessageInteraction(
 class MessageReference(
     val message_id: String?,
     val channel_id: String?,
-    val guild_id: String?,
-    val fail_if_not_exists: Boolean?
+    val guild_id: String?
 )
 
 class MessageActivity(
